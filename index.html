@@ -1365,7 +1365,7 @@
 
         <div class="slide-visual-box">
           <div class="video-container" id="video-wrapper">
-            <video id="pedido-video" class="video-player" playsinline preload="auto">
+            <video id="pedido-video" class="video-player" playsinline preload="metadata">
               <source src="assets/pedido.mp4" type="video/mp4" />
               Seu navegador não suporta vídeos.
             </video>
@@ -1521,8 +1521,9 @@
     const TOTAL_SLIDES = 9;
 
     // DURAÇÃO: Ritmo dinâmico de stories (8s a 9s), pois agora é possível segurar a tela para pausar!
+    // Slide 0 é 0 para nunca avançar sozinho (aguarda o clique no Play no centro)
     const SLIDE_DURATIONS = {
-      0: 8000,  // Capa
+      0: 0,     // Capa: Fixo aguardando o Play
       1: 8500,  // Cantada da Balada
       2: 8000,  // Salto pro Zap
       3: 8000,  // Estatísticas Reais (+44k mensagens)
@@ -1649,6 +1650,14 @@
 
         startSlideTimer(SLIDE_DURATIONS[6]);
         return;
+      }
+
+      // ── CASO ESPECIAL: SLIDE 0 (CAPA) ──
+      // Fica fixo aguardando o clique no Play no centro da tela ("Iniciar Retrospectiva")
+      if (currentSlide === 0) {
+        clearTimeout(storyTimer);
+        document.getElementById('play-pause-btn').textContent = '▶';
+        return; // Nunca inicia timer na capa!
       }
 
       // ── CASO ESPECIAL: SLIDE 8 (CARTA FINAL) ──
