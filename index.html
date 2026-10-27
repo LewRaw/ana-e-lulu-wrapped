@@ -9,10 +9,10 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Canvas Confetti (Diferido) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <style>
     *, *::before, *::after {
@@ -51,84 +51,16 @@
       position: relative;
     }
 
-    /* Ambient Glowing Orbs */
+    /* Ambient Glowing Background (Gradientes CSS nativos ultra-leves: 0% uso de GPU) */
     .ambient-bg {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.38;
-      animation: floatOrb 18s ease-in-out infinite alternate;
-    }
-
-    .orb-1 {
-      width: 440px;
-      height: 440px;
-      background: radial-gradient(circle, var(--amber-glow), transparent 70%);
-      top: -80px;
-      left: -80px;
-    }
-
-    .orb-2 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, #7e22ce, transparent 70%);
-      bottom: -100px;
-      right: -100px;
-      animation-delay: -7s;
-    }
-
-    .orb-3 {
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, var(--pink-soft), transparent 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.2;
-      animation-delay: -12s;
-    }
-
-    @keyframes floatOrb {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(35px, 40px) scale(1.1); }
-      100% { transform: translate(-25px, 15px) scale(0.95); }
-    }
-
-    /* Floating Sunflower Petals & Hearts */
-    #particles-container {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      pointer-events: none;
-      user-select: none;
-      animation: riseAndWobble linear infinite;
-    }
-
-    @keyframes riseAndWobble {
-      0% {
-        transform: translateY(105vh) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-      15% { opacity: 0.75; }
-      85% { opacity: 0.75; }
-      100% {
-        transform: translateY(-10vh) translateX(40px) rotate(360deg);
-        opacity: 0;
-      }
+      background: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(126, 34, 206, 0.16) 0%, transparent 50%),
+        #09060f;
     }
 
     /* Main Container */
@@ -241,7 +173,7 @@
     }
 
     .audio-btn {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(26, 17, 38, 0.95);
       border: 1px solid var(--border-gold);
       color: var(--gold-primary);
       border-radius: 999px;
@@ -252,7 +184,6 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      backdrop-filter: blur(10px);
       transition: all 0.25s ease;
     }
 
@@ -309,13 +240,13 @@
       flex-direction: column;
       justify-content: space-between;
       opacity: 0;
-      transform: scale(0.96) translateY(14px);
+      visibility: hidden;
+      transform: scale(0.97) translateY(8px);
       pointer-events: none;
-      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      background: var(--bg-card);
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+      background: linear-gradient(180deg, #180f25 0%, #10081a 100%);
       border: 1px solid var(--border-gold);
       border-radius: 22px;
-      backdrop-filter: blur(25px);
       overflow-y: auto;
       scrollbar-width: none;
     }
@@ -324,6 +255,7 @@
 
     .story-slide.active {
       opacity: 1;
+      visibility: visible;
       transform: scale(1) translateY(0);
       pointer-events: auto;
       z-index: 15;
@@ -613,7 +545,7 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(10, 5, 18, 0.92);
       border: 1px solid var(--gold-primary);
       color: var(--gold-primary);
       font-size: 0.68rem;
@@ -621,7 +553,6 @@
       padding: 4px 9px;
       border-radius: 999px;
       cursor: pointer;
-      backdrop-filter: blur(8px);
       z-index: 50;
       display: flex;
       align-items: center;
@@ -1077,18 +1008,11 @@
 </head>
 <body>
 
-  <!-- Ambient Light Background -->
-  <div class="ambient-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+  <!-- Ambient Light Background (Zero GPU) -->
+  <div class="ambient-bg"></div>
 
-  <!-- Rising Sunflower Petals & Hearts -->
-  <div id="particles-container"></div>
-
-  <!-- Audio Element -->
-  <audio id="bg-music" src="musica.mp3" preload="auto" loop></audio>
+  <!-- Audio Element (Zero impacto na abertura: preload="none") -->
+  <audio id="bg-music" src="musica.mp3" preload="none" loop></audio>
 
   <!-- App Wrapper -->
   <div class="app-wrapper">
@@ -1331,7 +1255,7 @@
         <div class="slide-visual-box">
           <div class="sunflowers-real-wrapper">
             <div class="sf-photo-frame">
-              <img src="assets/foto_flores_pedido.jpg" alt="Flores do Pedido" />
+              <img src="assets/foto_flores_pedido.jpg" alt="Flores do Pedido" loading="lazy" decoding="async" />
             </div>
             <div class="sf-info-side">
               <div class="sf-mini-card">
@@ -1403,22 +1327,22 @@
           <div class="polaroids-showcase-container">
             <div class="polaroids-scroll-track" id="polaroids-track">
               <div class="polaroid-card active-top" onclick="focusPolaroid(this, 0)">
-                <img src="assets/foto_casal_1.jpg" alt="Aninha e Lulu" />
+                <img src="assets/foto_casal_1.jpg" alt="Aninha e Lulu" loading="lazy" decoding="async" />
                 <div class="polaroid-caption">Meu Lugar Favorito 🩷</div>
               </div>
 
               <div class="polaroid-card" onclick="focusPolaroid(this, 1)">
-                <img src="assets/foto_jantar.jpg" alt="Jantar Especial" />
+                <img src="assets/foto_jantar.jpg" alt="Jantar Especial" loading="lazy" decoding="async" />
                 <div class="polaroid-caption">Nossos Jantares 🍝</div>
               </div>
 
               <div class="polaroid-card" onclick="focusPolaroid(this, 2)">
-                <img src="assets/foto_viagem_1.jpg" alt="Passeio Juntos" />
+                <img src="assets/foto_viagem_1.jpg" alt="Passeio Juntos" loading="lazy" decoding="async" />
                 <div class="polaroid-caption">Passeando Juntinhos 🚗</div>
               </div>
 
               <div class="polaroid-card" onclick="focusPolaroid(this, 3)">
-                <img src="assets/foto_casal_2.jpg" alt="Aninha e Lulu Abraçadinhos" />
+                <img src="assets/foto_casal_2.jpg" alt="Aninha e Lulu Abraçadinhos" loading="lazy" decoding="async" />
                 <div class="polaroid-caption">O Teu Abraço ☀️</div>
               </div>
             </div>
@@ -1502,21 +1426,6 @@
   </div>
 
   <script>
-    // ── GERAÇÃO DE PÉTALAS E CORAÇÕES FLUTUANTES ──
-    const particlesContainer = document.getElementById('particles-container');
-    const particleIcons = ['🌻', '🩷', '☀️', '✨', '💛', '🌸'];
-
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.textContent = particleIcons[Math.floor(Math.random() * particleIcons.length)];
-      p.style.left = (Math.random() * 100) + 'vw';
-      p.style.fontSize = (0.9 + Math.random() * 1.3) + 'rem';
-      p.style.animationDuration = (8 + Math.random() * 10) + 's';
-      p.style.animationDelay = (Math.random() * 8) + 's';
-      particlesContainer.appendChild(p);
-    }
-
     // ── CONFIGURAÇÃO DOS STORIES (9 SLIDES) ──
     const TOTAL_SLIDES = 9;
 
