@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+  <title>Aninha & Lulu — Sunflower Wrapped 🌻💛</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌻</text></svg>" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --gold-primary: #fbbf24;
+      --gold-dark: #d97706;
+      --amber-glow: #f59e0b;
+      --sun-yellow: #fde047;
+      --pink-soft: #f472b6;
+      --pink-deep: #db2777;
+      --bg-dark: #09060f;
+      --bg-card: rgba(20, 13, 30, 0.85);
+      --border-gold: rgba(251, 191, 36, 0.35);
+      --border-pink: rgba(244, 114, 182, 0.25);
+      --text-main: #fefce8;
+      --text-muted: #e6dfd3;
+      --text-dim: #9ca3af;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glowing Orbs */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.38;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 440px;
+      height: 440px;
+      background: radial-gradient(circle, var(--amber-glow), transparent 70%);
+      top: -80px;
+      left: -80px;
+    }
+
+    .orb-2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #7e22ce, transparent 70%);
+      bottom: -100px;
+      right: -100px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, var(--pink-soft), transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.2;
+      animation-delay: -12s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(35px, 40px) scale(1.1); }
+      100% { transform: translate(-25px, 15px) scale(0.95); }
+    }
+
+    /* Floating Sunflower Petals & Hearts */
+    #particles-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+      animation: riseAndWobble linear infinite;
+    }
+
+    @keyframes riseAndWobble {
+      0% {
+        transform: translateY(105vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      15% { opacity: 0.75; }
+      85% { opacity: 0.75; }
+      100% {
+        transform: translateY(-10vh) translateX(40px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main Container */
+    .app-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 440px;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 14px 16px;
+      background: linear-gradient(180deg, rgba(22, 14, 34, 0.58) 0%, rgba(10, 7, 16, 0.94) 100%);
+      border-left: 1px solid rgba(251, 191, 36, 0.08);
+      border-right: 1px solid rgba(251, 191, 36, 0.08);
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
+    }
+
+    @media (min-width: 500px) {
+      .app-wrapper {
+        height: 94vh;
+        height: 94dvh;
+        max-height: 840px;
+        border-radius: 36px;
+        border: 1px solid rgba(251, 191, 36, 0.28);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(245, 158, 11, 0.15);
+      }
+    }
+
+    /* Top Stories Navigation */
+    .stories-nav {
+      position: relative;
+      z-index: 25;
+      width: 100%;
+      padding-bottom: 6px;
+    }
+
+    .progress-bar-container {
+      display: flex;
+      gap: 4px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .progress-segment {
+      flex: 1;
+      height: 3.5px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-primary), var(--sun-yellow));
+      border-radius: 999px;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.9);
+    }
+
+    .progress-segment.completed .progress-fill {
+      width: 100% !important;
+    }
+
+    /* Header Bar */
+    .story-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-primary), var(--pink-soft));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      border: 1.5px solid var(--sun-yellow);
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+    }
+
+    .brand-info h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .brand-info span {
+      font-size: 0.65rem;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+
+    .audio-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+    }
+
+    .audio-btn:hover, .audio-btn:active {
+      background: rgba(251, 191, 36, 0.2);
+      transform: scale(1.04);
+    }
+
+    .audio-wave {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 11px;
+    }
+
+    .wave-bar {
+      width: 2px;
+      height: 5px;
+      background: var(--gold-primary);
+      border-radius: 2px;
+      transition: height 0.2s ease;
+    }
+
+    .audio-btn.playing .wave-bar:nth-child(1) { animation: waveAnim 0.7s infinite alternate ease-in-out; }
+    .audio-btn.playing .wave-bar:nth-child(2) { animation: waveAnim 0.9s infinite alternate ease-in-out 0.2s; }
+    .audio-btn.playing .wave-bar:nth-child(3) { animation: waveAnim 0.6s infinite alternate ease-in-out 0.4s; }
+
+    @keyframes waveAnim {
+      0% { height: 3px; }
+      100% { height: 12px; }
+    }
+
+    /* Story Viewport (Suporta Hold to Pause como Instagram) */
+    .story-viewport {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0;
+      user-select: none;
+      cursor: default;
+    }
+
+    /* Story Card Slides with 3D Depth */
+    .story-slide {
+      position: absolute;
+      inset: 0;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.96) translateY(14px);
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 22px;
+      backdrop-filter: blur(25px);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .story-slide::-webkit-scrollbar { display: none; }
+
+    .story-slide.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+      z-index: 15;
+    }
+
+    /* Estilo especial para centralizar o Slide 0 (Capa) */
+    .slide-cover {
+      justify-content: space-between;
+      text-align: center;
+      padding: 22px 18px 16px;
+    }
+
+    .cover-center-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: auto 0;
+      width: 100%;
+    }
+
+    .cover-cta-center {
+      width: 100%;
+      max-width: 310px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-cover-play {
+      font-size: 1rem;
+      padding: 14px 28px;
+      box-shadow: 0 8px 25px rgba(251, 191, 36, 0.55);
+      animation: pulsePlay 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% { transform: scale(1); box-shadow: 0 6px 20px rgba(251, 191, 36, 0.45); }
+      50% { transform: scale(1.03); box-shadow: 0 10px 30px rgba(251, 191, 36, 0.7); }
+    }
+
+    .cover-song-hint {
+      text-align: center;
+    }
+
+    .cover-song-hint .song-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+    }
+
+    .cover-song-hint .song-subtitle {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    /* Story Slide Elements */
+    .slide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      align-self: flex-start;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.65rem;
+      line-height: 1.18;
+      color: #fff;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide-title .highlight {
+      background: linear-gradient(90deg, var(--gold-primary), var(--sun-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-desc {
+      font-size: 0.88rem;
+      line-height: 1.48;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .slide-desc strong {
+      color: var(--gold-primary);
+      font-weight: 600;
+    }
+
+    /* Visual Graphic Area */
+    .slide-visual-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0;
+      position: relative;
+      width: 100%;
+    }
+
+    /* Vinyl Spinner */
+    .vinyl-wrapper {
+      position: relative;
+      width: 145px;
+      height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vinyl-disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2a2038 18%, #130d1d 22%, #09060d 50%, #20172c 52%, #0c0814 70%);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(251, 191, 36, 0.25);
+      border: 3px solid rgba(251, 191, 36, 0.4);
+      animation: spinVinyl 14s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .vinyl-center-sunflower {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #78350f, #451a03);
+      border: 2.5px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+    }
+
+    /* Chat Balada Mockup (Slide 1) */
+    .balada-dialog-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      background: rgba(30, 18, 45, 0.6);
+      border: 1px solid var(--border-gold);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .balada-bubble {
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 0.84rem;
+      line-height: 1.35;
+      max-width: 90%;
+    }
+
+    .balada-lulu {
+      align-self: flex-start;
+      background: rgba(45, 28, 65, 0.9);
+      border: 1px solid rgba(244, 114, 182, 0.35);
+      color: #fff;
+    }
+
+    .balada-ana {
+      align-self: flex-end;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.85), rgba(180, 83, 9, 0.95));
+      border: 1px solid var(--gold-primary);
+      color: #fff;
+    }
+
+    .balada-punchline {
+      align-self: flex-start;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(236, 72, 153, 0.35));
+      border: 1.5px solid var(--gold-primary);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+    }
+
+    .balada-bubble .author {
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: block;
+    }
+    .balada-lulu .author { color: var(--pink-soft); }
+    .balada-ana .author { color: var(--sun-yellow); text-align: right; }
+    .balada-punchline .author { color: var(--gold-primary); }
+
+    /* Two Sunflowers with Real Photo (Slide 5) */
+    .sunflowers-real-wrapper {
+      position: relative;
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .sf-photo-frame {
+      flex: 1.1;
+      height: 195px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.3);
+      position: relative;
+    }
+
+    .sf-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sf-info-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .sf-mini-card {
+      background: rgba(35, 20, 50, 0.75);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .sf-mini-card h5 {
+      font-size: 0.78rem;
+      color: var(--gold-primary);
+      font-family: 'Fredoka', cursive;
+    }
+
+    .sf-mini-card p {
+      font-size: 0.66rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    /* Video Slide 6 (02 de Outubro) */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 0 35px rgba(251, 191, 36, 0.4);
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-player {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-audio-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 999px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.2s ease;
+    }
+
+    .video-audio-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      z-index: 45;
+    }
+
+    .video-container:hover .video-play-overlay,
+    .video-container.paused .video-play-overlay {
+      opacity: 1;
+    }
+
+    .play-circle-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(251, 191, 36, 0.9);
+      color: #0c0814;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+    }
+
+    /* Polaroids Gallery Slide (Slide 7 - Showcase Separadinho & Deslizável) */
+    .polaroids-showcase-container {
+      width: 100%;
+      margin: 2px 0;
+      position: relative;
+    }
+
+    .polaroids-scroll-track {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 8px 10px 12px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      align-items: center;
+    }
+
+    .polaroids-scroll-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .polaroid-card {
+      flex: 0 0 165px;
+      scroll-snap-align: center;
+      background: #fdfaf2;
+      color: #1a1523;
+      padding: 8px 8px 15px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-align: center;
+      border: 1.5px solid rgba(251, 191, 36, 0.2);
+    }
+
+    .polaroid-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .polaroid-caption {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.76rem;
+      color: #3b2818;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .polaroid-card:hover, .polaroid-card.active-top {
+      transform: scale(1.05) translateY(-3px);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.75), 0 0 20px rgba(251, 191, 36, 0.45);
+      border-color: var(--gold-primary);
+    }
+
+    .polaroid-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .pol-tab-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pol-tab-btn:hover, .pol-tab-btn.active {
+      background: rgba(251, 191, 36, 0.25);
+      border-color: var(--gold-primary);
+      color: #fff;
+    }
+
+    /* Chat WhatsApp Mockup (Slide 2) */
+    .chat-mockup {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 4px 0;
+    }
+
+    .chat-bubble {
+      max-width: 84%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.86rem;
+      line-height: 1.35;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+    }
+
+    .bubble-lulu {
+      align-self: flex-start;
+      background: rgba(45, 30, 65, 0.88);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      color: #fff;
+      border-bottom-left-radius: 4px;
+    }
+
+    .bubble-lulu .sender-name {
+      color: var(--pink-soft);
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: block;
+    }
+
+    .bubble-ana {
+      align-self: flex-end;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.8), rgba(180, 83, 9, 0.9));
+      border: 1px solid var(--gold-primary);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble-ana .sender-name {
+      color: var(--sun-yellow);
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: block;
+      text-align: right;
+    }
+
+    .chat-time {
+      display: block;
+      font-size: 0.6rem;
+      opacity: 0.6;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    /* Stats Grid (Slide 3) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      width: 100%;
+    }
+
+    .stat-card {
+      background: rgba(35, 22, 50, 0.65);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 11px 9px;
+      text-align: center;
+    }
+
+    .stat-card.wide {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(244, 114, 182, 0.1));
+      border-color: rgba(251, 191, 36, 0.4);
+    }
+
+    .stat-icon {
+      font-size: 1.35rem;
+      margin-bottom: 2px;
+    }
+
+    .stat-number {
+      font-family: 'Fredoka', cursive;
+      font-size: 1.6rem;
+      color: var(--gold-primary);
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Top Tracks Playlist (Slide 4) */
+    .tracks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6.5px;
+      width: 100%;
+    }
+
+    .track-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      background: rgba(30, 18, 44, 0.65);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      border-radius: 12px;
+      padding: 6.5px 10px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .track-item:hover, .track-item:active {
+      border-color: var(--gold-primary);
+      transform: translateX(4px);
+    }
+
+    .track-num {
+      font-family: 'Fredoka', cursive;
+      font-size: 0.95rem;
+      color: var(--gold-primary);
+      width: 17px;
+    }
+
+    .track-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .track-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .track-artist {
+      font-size: 0.66rem;
+      color: var(--text-dim);
+    }
+
+    .track-heart {
+      font-size: 0.95rem;
+    }
+
+    /* ── CARTA FINAL (SLIDE 8 - Visual Moderno de Carta Aconchegante) ── */
+    .letter-card-romantic {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(145deg, rgba(38, 22, 54, 0.88) 0%, rgba(20, 13, 32, 0.96) 100%);
+      border: 1.5px solid var(--border-gold);
+      border-radius: 20px;
+      padding: 16px 18px 18px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(251, 191, 36, 0.2);
+      text-align: left;
+    }
+
+    .letter-header-seal {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .letter-header-seal span {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+    }
+
+    .letter-body-text {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #f3ede2;
+    }
+
+    .letter-body-text p + p {
+      margin-top: 10px;
+    }
+
+    .letter-signature-wrap {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(251, 191, 36, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .letter-signature-tag {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .letter-signature-name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--gold-primary);
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn-main {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      color: #0c0814;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-main:hover, .btn-main:active {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(251, 191, 36, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--gold-primary);
+      border: 1px solid var(--border-gold);
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(251, 191, 36, 0.15);
+    }
+
+    /* ── CONTROLES DO RODAPÉ (Navegação Exclusiva por Botões) ── */
+    .story-footer {
+      position: relative;
+      z-index: 35;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 2px 0;
+    }
+
+    .footer-hints {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .nav-arrow-btns {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-arrow-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1.5px solid var(--border-gold);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+
+    .nav-arrow-btn:hover, .nav-arrow-btn:active {
+      background: rgba(251, 191, 36, 0.25);
+      border-color: var(--gold-primary);
+      transform: scale(1.05);
+    }
+
+    .nav-arrow-btn.btn-nav-next {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(217, 119, 6, 0.35));
+      border-color: var(--gold-primary);
+      color: #fff;
+    }
+
+    .nav-pause-btn {
+      width: 36px;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Background -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Rising Sunflower Petals & Hearts -->
+  <div id="particles-container"></div>
+
+  <!-- Audio Element -->
+  <audio id="bg-music" src="musica.mp3" preload="auto" loop></audio>
+
+  <!-- App Wrapper -->
+  <div class="app-wrapper">
+    
+    <!-- Top Stories Navigation -->
+    <header class="stories-nav">
+      <div class="progress-bar-container" id="progress-container">
+        <!-- Segments generated by JS -->
+      </div>
+      <div class="story-header">
+        <div class="brand-badge">
+          <div class="brand-avatar">🌻</div>
+          <div class="brand-info">
+            <h4>Aninha & Lulu <span>• Wrapped 2026</span></h4>
+          </div>
+        </div>
+        <button class="audio-btn" id="audio-toggle-btn" onclick="toggleAudio()" title="Tocar / Mutar Música">
+          <div class="audio-wave">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+          <span id="audio-btn-text">Música</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Story Viewport -->
+    <main class="story-viewport" id="story-viewport">
+
+      <!-- SLIDE 0: Capa / Intro (Centralizado com Botão de Play no Meio) -->
+      <section class="story-slide active slide-cover" data-index="0">
+        <div>
+          <span class="slide-badge" style="margin: 0 auto 8px;">🌻 EDIÇÃO ESPECIAL DO CASAL</span>
+          <h1 class="slide-title">Sunflower <br/><span class="highlight">Wrapped 2026</span></h1>
+          <p class="slide-desc" style="max-width: 320px; margin: 0 auto 6px;">
+            A retrospectiva das memórias e momentos que transformaram <strong>Aninha & Lulu</strong> em namorados.
+          </p>
+        </div>
+
+        <div class="slide-visual-box cover-center-box">
+          <div class="vinyl-wrapper">
+            <div class="vinyl-disc">
+              <div class="vinyl-center-sunflower">🌻</div>
+            </div>
+          </div>
+
+          <div class="cover-cta-center">
+            <button class="btn-main btn-cover-play" onclick="startStoryExperience()">
+              <span>▶ Iniciar Retrospectiva</span>
+            </button>
+            <div class="cover-song-hint">
+              <p class="song-title">🎵 "Te Esperando" — Luan Santana</p>
+              <p class="song-subtitle">A favorita da vida da Aninha 💕</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size: 0.68rem; color: var(--text-dim); text-align: center;">
+            Aperte o botão acima para começar com música ✨ (Segure na tela para pausar como no IG)
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 1: A Cantada da Balada (COM O DIÁLOGO EXATO!) -->
+      <section class="story-slide" data-index="1">
+        <div>
+          <span class="slide-badge">FAIXA 01 • ONDE TUDO COMEÇOU</span>
+          <h2 class="slide-title">A Cantada <span class="highlight">Lendária</span> 💃✨</h2>
+          <p class="slide-desc">
+            Naquela balada, o Lulu chegou com a cantada mais ousada e inesquecível de todas:
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="balada-dialog-box">
+            <div class="balada-bubble balada-lulu">
+              <span class="author">Lulu 🕺</span>
+              <span>"Você sabia que hoje era festa à fantasia?"</span>
+            </div>
+            <div class="balada-bubble balada-ana">
+              <span class="author">Aninha 🤔</span>
+              <span>"Não... por quê?"</span>
+            </div>
+            <div class="balada-bubble balada-punchline">
+              <span class="author">Lulu 😏💘</span>
+              <span>"Então por que você veio fantasiada de amor da minha vida?"</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="stat-card wide" style="padding: 9px 12px;">
+            <span style="font-size: 0.76rem; color: var(--gold-primary); font-weight: 700;">
+              ✨ E não era fantasia: virou a profecia mais linda da nossa vida! 🩷
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: 05 de Julho - O Salto pro WhatsApp -->
+      <section class="story-slide" data-index="2">
+        <div>
+          <span class="slide-badge">FAIXA 02 • O SALTO HISTÓRICO</span>
+          <h2 class="slide-title">05 de Julho: <br/><span class="highlight">"oi, luiz aq"</span> 📱💬</h2>
+          <p class="slide-desc">
+            A mensagem que mudou tudo. Saímos do direct do Instagram e o WhatsApp virou o nosso cantinho diário de conversas até de madrugada.
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="chat-mockup">
+            <div class="chat-bubble bubble-lulu">
+              <span class="sender-name">Luiz G. de Salles</span>
+              <span>oi<br/>luiz aq</span>
+              <span class="chat-time">05/07/2026, 00:14 ✓✓</span>
+            </div>
+            <div class="chat-bubble bubble-ana">
+              <span class="sender-name">anaaa amor ☀️💘</span>
+              <span>Oiiii 💕<br/>Pode deixar Ksksksks Olhaaa no instaaaaa</span>
+              <span class="chat-time">05/07/2026, 00:14 ✓✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="stat-card wide" style="padding: 9px 12px;">
+            <span style="font-size: 0.76rem; color: var(--gold-primary); font-weight: 700;">
+              ✨ A faísca virou fogueira: desde esse dia, nunca mais passamos 24h sem nos falar!
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Os Dados Reais do Amor (Rápida como antes: ~9 segundos) -->
+      <section class="story-slide" data-index="3">
+        <div>
+          <span class="slide-badge">FAIXA 03 • ESTATÍSTICAS REAIS</span>
+          <h2 class="slide-title">Os Números da <span class="highlight">Nossa Sintonia</span> 📊🔥</h2>
+          <p class="slide-desc">
+            Se amor gerasse dados em servidores, a gente já tinha derrubado o WhatsApp:
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">💬</div>
+              <div class="stat-number">+44.700</div>
+              <div class="stat-label">Mensagens Trocadas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">❤️</div>
+              <div class="stat-number">+520</div>
+              <div class="stat-label">"Te Amo" Registrados</div>
+            </div>
+            <div class="stat-card wide">
+              <div class="stat-icon">🩷 ☀️</div>
+              <div class="stat-number" style="font-size: 1.35rem;">Coração Rosa & Sol</div>
+              <div class="stat-label">Os emojis campeões absolutos da nossa conversa!</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size: 0.75rem; color: var(--text-dim); text-align: center;">
+            Média impressionante de mais de 400 mensagens por dia!
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Top Tracks / Momentos Clássicos -->
+      <section class="story-slide" data-index="4">
+        <div>
+          <span class="slide-badge">FAIXA 04 • NOSSAS FAIXAS MAIS TOCADAS</span>
+          <h2 class="slide-title">Os Momentos <span class="highlight">Favoritos</span> 🎧✨</h2>
+          <p class="slide-desc">
+            As músicas que tocaram no repeat da nossa história:
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="tracks-list">
+            <div class="track-item">
+              <span class="track-num">1</span>
+              <div class="track-info">
+                <div class="track-title">🍷 Nossos Dates Que Nunca Vão Parar</div>
+                <div class="track-artist">Encontros especiais que nunca vão deixar de acontecer</div>
+              </div>
+              <span class="track-heart">🥂</span>
+            </div>
+
+            <div class="track-item">
+              <span class="track-num">2</span>
+              <div class="track-info">
+                <div class="track-title">🍳 Nossas Receitas Duvidosas</div>
+                <div class="track-artist">Invenções na cozinha que sempre dão certo!</div>
+              </div>
+              <span class="track-heart">😋</span>
+            </div>
+
+            <div class="track-item">
+              <span class="track-num">3</span>
+              <div class="track-info">
+                <div class="track-title">🎬 Filmes Sem Fim</div>
+                <div class="track-artist">Recorde de 0 filmes terminados por motivos de beijos</div>
+              </div>
+              <span class="track-heart">😘</span>
+            </div>
+
+            <div class="track-item">
+              <span class="track-num">4</span>
+              <div class="track-info">
+                <div class="track-title">🚶‍♀️ Caminhar com a Minha Gata & Dengo</div>
+                <div class="track-artist">Mãos dadas, risadas e abraço que recarrega</div>
+              </div>
+              <span class="track-heart">🥺</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size: 0.72rem; color: var(--gold-primary); text-align: center; font-weight: 600;">
+            ♪ Álbum: "O Jeitinho Perfeito da Aninha" (Disco de Platina)
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: O Segredo dos Dois Girassóis (Ajustado para ~12 segundos!) -->
+      <section class="story-slide" data-index="5">
+        <div>
+          <span class="slide-badge">FAIXA 05 • NOSSO SÍMBOLO SECRETO</span>
+          <h2 class="slide-title">O Segredo dos <span class="highlight">Dois Girassóis</span> 🌻🌻</h2>
+          <p class="slide-desc">
+            Você já percebeu que eu sempre faço questão de te mandar <strong>dois girassóis</strong>?
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="sunflowers-real-wrapper">
+            <div class="sf-photo-frame">
+              <img src="assets/foto_flores_pedido.jpg" alt="Flores do Pedido" />
+            </div>
+            <div class="sf-info-side">
+              <div class="sf-mini-card">
+                <h5>Aninha 🌻</h5>
+                <p>O meu solzinho (☀️) que ilumina cada amanhecer.</p>
+              </div>
+              <div class="sf-mini-card">
+                <h5>Lulu 🌻</h5>
+                <p>O seu porto seguro e parceiro de todas as horas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="slide-desc" style="margin-bottom: 0;">
+            Em dias frios ou sem sol, <strong>os girassóis se voltam um para o outro para compartilhar calor e vida</strong>. É exatamente isso que somos nós dois!
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: 02 de Outubro - O VÍDEO DO PEDIDO DE NAMORO 💍✨ (Com Vídeo Acelerado 1.2x) -->
+      <section class="story-slide" data-index="6" id="slide-video">
+        <div>
+          <span class="slide-badge">FAIXA 06 • O MOMENTO DO SIM 💍</span>
+          <h2 class="slide-title">02 de Outubro: <br/><span class="highlight">O Nosso Pedido</span> ✨</h2>
+          <p class="slide-desc">
+            A surpresa na minha casa, o frio na barriga e o <strong>SIM</strong> mais lindo do mundo:
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="video-container" id="video-wrapper">
+            <video id="pedido-video" class="video-player" playsinline preload="auto">
+              <source src="assets/pedido.mp4" type="video/mp4" />
+              Seu navegador não suporta vídeos.
+            </video>
+            
+            <button class="video-audio-btn" id="video-sound-toggle" onclick="toggleVideoSound(event)">
+              <span id="video-sound-icon">🔇</span>
+              <span id="video-sound-text">Ouvir Vídeo</span>
+            </button>
+
+            <div class="video-play-overlay" onclick="toggleVideoPlay(event)">
+              <div class="play-circle-icon" id="video-play-icon">▶</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size: 0.78rem; color: #fff; text-align: center; font-weight: 600;">
+            Oficialmente namorados! 🤍💍 O início do nosso "para sempre".
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: O Nosso Álbum de Memórias (Polaroids Interativas) -->
+      <!-- SLIDE 7: O Nosso Álbum de Memórias (Polaroids Separadas & Deslizáveis) -->
+      <section class="story-slide" data-index="7">
+        <div>
+          <span class="slide-badge">FAIXA 07 • NOSSO ÁLBUM DE FOTOS</span>
+          <h2 class="slide-title">Colecionando <br/><span class="highlight">Momentos com Você</span> 📸💛</h2>
+          <p class="slide-desc" style="margin-bottom: 6px;">
+            Deslize ou toque nas fotos para ver cada memória nossa:
+          </p>
+        </div>
+
+        <div class="slide-visual-box">
+          <div class="polaroids-showcase-container">
+            <div class="polaroids-scroll-track" id="polaroids-track">
+              <div class="polaroid-card active-top" onclick="focusPolaroid(this, 0)">
+                <img src="assets/foto_casal_1.jpg" alt="Aninha e Lulu" />
+                <div class="polaroid-caption">Meu Lugar Favorito 🩷</div>
+              </div>
+
+              <div class="polaroid-card" onclick="focusPolaroid(this, 1)">
+                <img src="assets/foto_jantar.jpg" alt="Jantar Especial" />
+                <div class="polaroid-caption">Nossos Jantares 🍝</div>
+              </div>
+
+              <div class="polaroid-card" onclick="focusPolaroid(this, 2)">
+                <img src="assets/foto_viagem_1.jpg" alt="Passeio Juntos" />
+                <div class="polaroid-caption">Passeando Juntinhos 🚗</div>
+              </div>
+
+              <div class="polaroid-card" onclick="focusPolaroid(this, 3)">
+                <img src="assets/foto_casal_2.jpg" alt="Aninha e Lulu Abraçadinhos" />
+                <div class="polaroid-caption">O Teu Abraço ☀️</div>
+              </div>
+            </div>
+
+            <!-- Botões / Pílulas seletoras -->
+            <div class="polaroid-tabs">
+              <button class="pol-tab-btn active" onclick="selectPolaroidByIndex(0)">Meu Lugar 🩷</button>
+              <button class="pol-tab-btn" onclick="selectPolaroidByIndex(1)">Jantares 🍝</button>
+              <button class="pol-tab-btn" onclick="selectPolaroidByIndex(2)">Passeios 🚗</button>
+              <button class="pol-tab-btn" onclick="selectPolaroidByIndex(3)">Abraço ☀️</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p style="font-size: 0.72rem; color: var(--gold-primary); text-align: center; font-weight: 600;">
+            ✨ "Com você, qualquer lugar vira o melhor lugar do mundo."
+          </p>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: A Carta do Lulu (Design de Carta Romântica) -->
+      <section class="story-slide" data-index="8">
+        <div>
+          <span class="slide-badge">FAIXA 08 • DEDICATÓRIA FINAL</span>
+          <h2 class="slide-title">Pra Sempre <span class="highlight">Com Você</span> 💌🌻</h2>
+        </div>
+
+        <div class="slide-visual-box" style="justify-content: center;">
+          <div class="letter-card-romantic">
+            <div class="letter-header-seal">
+              <span>🌻 De: Lulu &nbsp;•&nbsp; Para: Aninha</span>
+              <span>2026 💖</span>
+            </div>
+            
+            <div class="letter-body-text">
+              <p>
+                Minha gatinha meiga, obrigado por existir e por trazer tanta luz para os meus dias.
+              </p>
+              <p>
+                Eu me apaixono todos os dias pelo seu caráter admirável, pela sua dedicação, pelo seu jeitinho carinhoso de ser e por essa nossa cumplicidade em caminhar de mãos dadas, inventar receitas duvidosas e trocar os beijos mais gostosos da Terra.
+              </p>
+              <p>
+                Que a nossa história continue sendo esse campo infinito de girassóis: cheia de calor, risadas e muito, muito amor!
+              </p>
+            </div>
+
+            <div class="letter-signature-wrap">
+              <span class="letter-signature-tag">Para todo o sempre</span>
+              <span class="letter-signature-name">Do seu Lulu. 💖</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button class="btn-main" onclick="triggerLoveFireworks()">
+            <span>🌻 Mandar Beijinhos & Flores 💋</span>
+          </button>
+          <button class="btn-secondary" onclick="restartStories()">
+            <span>🔄 Rever Nossa Retrospectiva</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Controls Footer (Navegação Exclusiva pelas Setas) -->
+    <footer class="story-footer">
+      <div class="footer-hints">
+        <span id="story-counter">1 / 9</span>
+        <span>•</span>
+        <span>🌻 Aninha & Lulu</span>
+      </div>
+      <div class="nav-arrow-btns">
+        <button class="nav-arrow-btn" onclick="prevStory()" title="Voltar Story">‹ Voltar</button>
+        <button class="nav-arrow-btn nav-pause-btn" onclick="togglePauseStory()" id="play-pause-btn" title="Pausar / Retomar">❚❚</button>
+        <button class="nav-arrow-btn btn-nav-next" onclick="nextStory()" title="Próximo Story">Avançar ›</button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ── GERAÇÃO DE PÉTALAS E CORAÇÕES FLUTUANTES ──
+    const particlesContainer = document.getElementById('particles-container');
+    const particleIcons = ['🌻', '🩷', '☀️', '✨', '💛', '🌸'];
+
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.textContent = particleIcons[Math.floor(Math.random() * particleIcons.length)];
+      p.style.left = (Math.random() * 100) + 'vw';
+      p.style.fontSize = (0.9 + Math.random() * 1.3) + 'rem';
+      p.style.animationDuration = (8 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      particlesContainer.appendChild(p);
+    }
+
+    // ── CONFIGURAÇÃO DOS STORIES (9 SLIDES) ──
+    const TOTAL_SLIDES = 9;
+
+    // DURAÇÃO: Ritmo dinâmico de stories (8s a 9s), pois agora é possível segurar a tela para pausar!
+    const SLIDE_DURATIONS = {
+      0: 8000,  // Capa
+      1: 8500,  // Cantada da Balada
+      2: 8000,  // Salto pro Zap
+      3: 8000,  // Estatísticas Reais (+44k mensagens)
+      4: 8500,  // Nossos Dates & Momentos Favoritos
+      5: 8500,  // Segredo dos Dois Girassóis
+      6: 35000, // Vídeo do pedido no ritmo original natural
+      7: 8500,  // Álbum de Polaroids
+      8: 0      // Carta final: Fica fixa na tela sem passar sozinha
+    };
+
+    let currentSlide = 0;
+    let storyTimer = null;
+    let startTime = null;
+    let remainingTime = 0;
+    let isPaused = false;
+    let wasAudioPlayingBeforePause = false;
+    let wasManualPaused = false;
+
+    // Gerar barras de progresso
+    const progressContainer = document.getElementById('progress-container');
+    for (let i = 0; i < TOTAL_SLIDES; i++) {
+      const seg = document.createElement('div');
+      seg.className = 'progress-segment';
+      seg.id = `seg-${i}`;
+      seg.innerHTML = `<div class="progress-fill" id="fill-${i}"></div>`;
+      progressContainer.appendChild(seg);
+    }
+
+    // ── VÍDEO DO PEDIDO (SLIDE 6) ──
+    const pedidoVideo = document.getElementById('pedido-video');
+    const videoWrapper = document.getElementById('video-wrapper');
+    const videoSoundBtn = document.getElementById('video-sound-toggle');
+    const videoSoundIcon = document.getElementById('video-sound-icon');
+    const videoSoundText = document.getElementById('video-sound-text');
+    let isVideoSoundActive = false;
+
+    // Avançar automaticamente ao término do vídeo se estiver nele
+    if (pedidoVideo) {
+      pedidoVideo.addEventListener('ended', () => {
+        if (currentSlide === 6) nextStory();
+      });
+    }
+
+    // ── GERENCIAMENTO DE SLIDES ──
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= TOTAL_SLIDES) index = TOTAL_SLIDES - 1;
+      
+      const prevSlide = currentSlide;
+      currentSlide = index;
+
+      // ── REGRA DE MÚSICA: Para no slide 0 e reseta, e começa ao ir para o slide 1 em diante ──
+      if (currentSlide === 0) {
+        pauseAudio();
+        bgMusic.currentTime = 0; // Reseta a música para o início sempre que voltar pro primeiro!
+        wasAudioPlayingBeforePause = false;
+      } else if (currentSlide >= 1 && !isAudioPlaying && !isVideoSoundActive) {
+        wasAudioPlayingBeforePause = true;
+        playAudio();
+      }
+
+      // Pausar vídeo se sair do slide 6
+      if (currentSlide !== 6) {
+        if (pedidoVideo && !pedidoVideo.paused) {
+          pedidoVideo.pause();
+        }
+        if (isVideoSoundActive) {
+          disableVideoSound();
+        }
+      }
+
+      // Atualiza classes dos slides
+      document.querySelectorAll('.story-slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === currentSlide);
+      });
+
+      // ── BARRA DE PROGRESSO: Completa instantaneamente ao pular e zera instantaneamente ao voltar ──
+      for (let i = 0; i < TOTAL_SLIDES; i++) {
+        const seg = document.getElementById(`seg-${i}`);
+        const fill = document.getElementById(`fill-${i}`);
+        if (!fill || !seg) continue;
+
+        // Desliga transição para aplicar o estado instantâneo sem animação residual
+        fill.style.transition = 'none';
+
+        if (i < currentSlide) {
+          // Passou: Completa 100% imediatamente
+          seg.className = 'progress-segment completed';
+          fill.style.width = '100%';
+        } else if (i === currentSlide) {
+          // Atual: Inicia em 0% e vai preencher suavemente no startSlideTimer
+          seg.className = 'progress-segment';
+          fill.style.width = '0%';
+        } else {
+          // Futuro: Zera imediatamente para 0%
+          seg.className = 'progress-segment';
+          fill.style.width = '0%';
+        }
+      }
+
+      // Atualiza contador de rodapé
+      document.getElementById('story-counter').textContent = `${currentSlide + 1} / ${TOTAL_SLIDES}`;
+
+      // ── CASO ESPECIAL: SLIDE 6 (VÍDEO DO PEDIDO COM 1.2x DE VELOCIDADE) ──
+      if (currentSlide === 6) {
+        confetti({
+          particleCount: 35,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#fbbf24', '#f59e0b', '#ffffff']
+        });
+
+        pedidoVideo.playbackRate = 1.0; // Velocidade natural original
+        pedidoVideo.currentTime = 0;
+        pedidoVideo.muted = !isVideoSoundActive;
+
+        pedidoVideo.play().then(() => {
+          videoWrapper.classList.remove('paused');
+          document.getElementById('video-play-icon').textContent = '❚❚';
+        }).catch(() => {
+          videoWrapper.classList.add('paused');
+          document.getElementById('video-play-icon').textContent = '▶';
+        });
+
+        startSlideTimer(SLIDE_DURATIONS[6]);
+        return;
+      }
+
+      // ── CASO ESPECIAL: SLIDE 8 (CARTA FINAL) ──
+      if (currentSlide === 8) {
+        clearTimeout(storyTimer);
+        const fill = document.getElementById(`fill-8`);
+        if (fill) fill.style.width = '100%';
+        const seg = document.getElementById(`seg-8`);
+        if (seg) seg.className = 'progress-segment completed';
+        triggerLoveFireworks();
+        return; // Fica fixa sem sair sozinha
+      }
+
+      // Inicia timer com duração calibrada para este slide
+      startSlideTimer(SLIDE_DURATIONS[currentSlide] || 20000);
+    }
+
+    function startSlideTimer(duration) {
+      clearTimeout(storyTimer);
+      remainingTime = duration;
+      startTime = Date.now();
+      isPaused = false;
+      wasManualPaused = false;
+      document.getElementById('play-pause-btn').textContent = '❚❚';
+
+      if (duration <= 0) return;
+
+      const fill = document.getElementById(`fill-${currentSlide}`);
+      if (fill) {
+        // Força reflow no navegador para que a transição comece exatamente do 0%
+        void fill.offsetWidth;
+        fill.style.transition = `width ${duration}ms linear`;
+        fill.style.width = '100%';
+      }
+
+      storyTimer = setTimeout(() => {
+        if (currentSlide < TOTAL_SLIDES - 1) {
+          nextStory();
+        } else {
+          const seg = document.getElementById(`seg-${currentSlide}`);
+          if (seg) seg.className = 'progress-segment completed';
+        }
+      }, duration);
+    }
+
+    function nextStory() {
+      if (currentSlide < TOTAL_SLIDES - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevStory() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      } else {
+        showSlide(0);
+      }
+    }
+
+    function togglePauseStory() {
+      if (isPaused) {
+        wasManualPaused = false;
+        resumeStory();
+      } else {
+        wasManualPaused = true;
+        pauseStory();
+      }
+    }
+
+    function pauseStory() {
+      if (isPaused || currentSlide === 8) return;
+      isPaused = true;
+      clearTimeout(storyTimer);
+      const elapsed = Date.now() - startTime;
+      remainingTime = Math.max(0, remainingTime - elapsed);
+
+      const fill = document.getElementById(`fill-${currentSlide}`);
+      if (fill) {
+        const computedWidth = window.getComputedStyle(fill).width;
+        fill.style.transition = 'none';
+        fill.style.width = computedWidth;
+      }
+      document.getElementById('play-pause-btn').textContent = '▶';
+      if (currentSlide === 6 && pedidoVideo) pedidoVideo.pause();
+
+      // REGRA: Sempre que pausar, pausa a música também!
+      if (isAudioPlaying) {
+        wasAudioPlayingBeforePause = true;
+        pauseAudio();
+      }
+    }
+
+    function resumeStory() {
+      if (!isPaused || currentSlide === 8) return;
+      isPaused = false;
+      startTime = Date.now();
+
+      const fill = document.getElementById(`fill-${currentSlide}`);
+      if (fill) {
+        fill.style.transition = `width ${remainingTime}ms linear`;
+        fill.style.width = '100%';
+      }
+
+      document.getElementById('play-pause-btn').textContent = '❚❚';
+      if (currentSlide === 6 && pedidoVideo) pedidoVideo.play();
+
+      // Retomar a música se estava tocando antes
+      if (wasAudioPlayingBeforePause && !isVideoSoundActive && currentSlide >= 1) {
+        playAudio();
+      }
+
+      storyTimer = setTimeout(() => {
+        if (currentSlide < TOTAL_SLIDES - 1) {
+          nextStory();
+        }
+      }, remainingTime);
+    }
+
+    function restartStories() {
+      showSlide(0);
+    }
+
+    function startStoryExperience() {
+      showSlide(1);
+      playAudio();
+    }
+
+    // ── PAUSAR SEGURANDO IGUAL INSTAGRAM (HOLD TO PAUSE) ──
+    const viewport = document.getElementById('story-viewport');
+    let isHolding = false;
+    let holdTimeout = null;
+
+    function handleHoldStart(e) {
+      // Ignorar se clicou em botões de ação ou cartões que tenham clique próprio
+      if (e.target.closest('button, .video-audio-btn, .polaroid-card, a, input')) return;
+      if (currentSlide === 8) return; // Carta final já é fixa
+
+      clearTimeout(holdTimeout);
+      holdTimeout = setTimeout(() => {
+        isHolding = true;
+        pauseStory();
+      }, 80); // Pequeno threshold de 80ms para diferenciar toque leve de segurar
+    }
+
+    function handleHoldEnd(e) {
+      clearTimeout(holdTimeout);
+      if (!isHolding) return;
+      isHolding = false;
+      if (!wasManualPaused) {
+        resumeStory();
+      }
+    }
+
+    viewport.addEventListener('mousedown', handleHoldStart);
+    viewport.addEventListener('mouseup', handleHoldEnd);
+    viewport.addEventListener('mouseleave', handleHoldEnd);
+
+    viewport.addEventListener('touchstart', handleHoldStart, { passive: true });
+    viewport.addEventListener('touchend', handleHoldEnd, { passive: true });
+    viewport.addEventListener('touchcancel', handleHoldEnd, { passive: true });
+
+    // ── CONTROLES DO VÍDEO (02 DE OUTUBRO) ──
+    function toggleVideoPlay(e) {
+      if (e) e.stopPropagation();
+      if (pedidoVideo.paused) {
+        pedidoVideo.play();
+        videoWrapper.classList.remove('paused');
+        document.getElementById('video-play-icon').textContent = '❚❚';
+        resumeStory();
+      } else {
+        pedidoVideo.pause();
+        videoWrapper.classList.add('paused');
+        document.getElementById('video-play-icon').textContent = '▶';
+        pauseStory();
+      }
+    }
+
+    function toggleVideoSound(e) {
+      if (e) e.stopPropagation();
+      if (!isVideoSoundActive) {
+        enableVideoSound();
+      } else {
+        disableVideoSound();
+      }
+    }
+
+    function enableVideoSound() {
+      isVideoSoundActive = true;
+      pedidoVideo.muted = false;
+      videoSoundIcon.textContent = '🔊';
+      videoSoundText.textContent = 'Música Pausada';
+      pauseAudio();
+    }
+
+    function disableVideoSound() {
+      isVideoSoundActive = false;
+      pedidoVideo.muted = true;
+      videoSoundIcon.textContent = '🔇';
+      videoSoundText.textContent = 'Ouvir Vídeo';
+      playAudio();
+    }
+
+    // ── POLAROIDS GALLERY INTERACTION ──
+    function focusPolaroid(card) {
+      document.querySelectorAll('.polaroid-card').forEach(c => c.classList.remove('active-top'));
+      card.classList.add('active-top');
+    }
+
+    // Navegação por teclado para desktop
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextStory();
+      if (e.key === 'ArrowLeft') prevStory();
+    });
+
+    // ── SISTEMA DE ÁUDIO (HTML5 Audio + Web Audio Procedural Fallback) ──
+    const bgMusic = document.getElementById('bg-music');
+    const audioBtn = document.getElementById('audio-toggle-btn');
+    const audioBtnText = document.getElementById('audio-btn-text');
+    let isAudioPlaying = false;
+    let audioCtx = null;
+    let synthInterval = null;
+
+    function playAudio() {
+      if (currentSlide === 0) return; // Nunca toca no slide de capa
+      bgMusic.play().then(() => {
+        isAudioPlaying = true;
+        wasAudioPlayingBeforePause = true;
+        updateAudioUI(true);
+      }).catch(() => {
+        startSynthChords();
+        isAudioPlaying = true;
+        wasAudioPlayingBeforePause = true;
+        updateAudioUI(true);
+      });
+    }
+
+    function pauseAudio() {
+      bgMusic.pause();
+      stopSynthChords();
+      isAudioPlaying = false;
+      updateAudioUI(false);
+    }
+
+    function toggleAudio() {
+      if (isAudioPlaying) {
+        wasAudioPlayingBeforePause = false;
+        pauseAudio();
+      } else {
+        wasAudioPlayingBeforePause = true;
+        playAudio();
+      }
+    }
+
+    function updateAudioUI(playing) {
+      if (playing) {
+        audioBtn.classList.add('playing');
+        audioBtnText.textContent = 'Tocando ♪';
+      } else {
+        audioBtn.classList.remove('playing');
+        audioBtnText.textContent = 'Música';
+      }
+    }
+
+    function startSynthChords() {
+      if (synthInterval || currentSlide === 0) return;
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!audioCtx) audioCtx = new AudioContext();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const notes = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 659.25];
+        let noteIdx = 0;
+
+        synthInterval = setInterval(() => {
+          if (!isAudioPlaying || !audioCtx || currentSlide === 0) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          
+          const freq = notes[noteIdx % notes.length];
+          noteIdx++;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+          gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.3);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2.2);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start();
+          osc.stop(audioCtx.currentTime + 2.4);
+        }, 1100);
+      } catch (err) {
+        console.log('Web Audio indisponível:', err);
+      }
+    }
+
+    function stopSynthChords() {
+      if (synthInterval) {
+        clearInterval(synthInterval);
+        synthInterval = null;
+      }
+    }
+
+    // ── FOGOS DE GIRASSÓIS E CORAÇÕES (Confetti) ──
+    function triggerLoveFireworks() {
+      const count = 220;
+      const defaults = { origin: { y: 0.7 } };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, {
+        spread: 26,
+        startVelocity: 55,
+        colors: ['#fbbf24', '#f59e0b', '#f472b6']
+      });
+      fire(0.2, {
+        spread: 60,
+        colors: ['#ffffff', '#fde047', '#ec4899']
+      });
+      fire(0.35, {
+        spread: 100,
+        decay: 0.91,
+        scalar: 0.9,
+        colors: ['#fbbf24', '#d97706', '#f472b6']
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 25,
+        decay: 0.92,
+        colors: ['#fbbf24', '#fde047']
+      });
+      fire(0.1, {
+        spread: 120,
+        startVelocity: 45,
+        colors: ['#ec4899', '#ffffff']
+      });
+    }
+
+    // Iniciar no primeiro slide com música desligada aguardando o clique
+    showSlide(0);
+  </script>
+</body>
+</html>
