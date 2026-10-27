@@ -1365,7 +1365,7 @@
 
         <div class="slide-visual-box">
           <div class="video-container" id="video-wrapper">
-            <video id="pedido-video" class="video-player" playsinline preload="metadata">
+            <video id="pedido-video" class="video-player" playsinline preload="none">
               <source src="assets/pedido.mp4" type="video/mp4" />
               Seu navegador não suporta vídeos.
             </video>
@@ -1593,6 +1593,11 @@
         if (isVideoSoundActive) {
           disableVideoSound();
         }
+      }
+
+      // Pré-carregamento dinâmico: Baixa o vídeo discretamente em segundo plano ao chegar próximo (slide 4 ou 5)
+      if (currentSlide >= 4 && pedidoVideo && pedidoVideo.preload !== 'auto') {
+        pedidoVideo.preload = 'auto';
       }
 
       // Atualiza classes dos slides
